@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Flora Divina | Premium Flower Classification</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Raleway:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        :root {
+            --primary: #6a3093;
+            --secondary: #a044ff;
+            --accent: #ff6b6b;
+            --light: #f9f3ff;
+            --dark: #1a1a2e;
+            --gold: #ffd700;
+            --platinum: #e5e4e2;
+            --white: #ffffff;
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: url('https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=3000&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            color: var(--dark);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 48, 147, 0.85) 0%, rgba(160, 68, 255, 0.85) 100%);
+            z-index: -1;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 10;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--platinum);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            animation: shine 8s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-30%, -30%); }
+            100% { transform: rotate(30deg) translate(30%, 30%); }
+        }
+        
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-weight: 300;
+            opacity: 0.9;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .form-container {
+            padding: 3rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            padding: 1.25rem 1.5rem 1.25rem 3rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light);
+            color: var(--dark);
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(106, 48, 147, 0.2);
+            background-color: var(--white);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        input:focus + .input-icon {
+            color: var(--secondary);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 1.25rem 3rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(106, 48, 147, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            min-width: 250px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(106, 48, 147, 0.6);
+            letter-spacing: 1px;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn i {
+            margin-left: 0.75rem;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .btn:hover i {
+            transform: rotate(10deg);
+        }
+        
+        .result-container {
+            padding: 0 3rem 3rem;
+            text-align: center;
+        }
+        
+        .prediction-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 243, 255, 0.9) 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .prediction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .prediction-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .prediction-text {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .floral-border {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%236a3093" opacity="0.05" d="M50,30 C60,20 70,20 80,30 C90,40 90,50 80,60 C70,70 60,70 50,60 C40,70 30,70 20,60 C10,50 10,40 20,30 C30,20 40,20 50,30 Z"/></svg>');
+            z-index: 1;
+            opacity: 0.1;
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .luxury-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(106, 48, 147, 0.3), transparent);
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .luxury-divider::before {
+            content: "✻";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--white);
+            color: var(--primary);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            box-shadow: 0 0 0 5px var(--white);
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--dark);
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container animate__animated animate__fadeIn">
+        <div class="header">
+            <h1 class="animate__animated animate__fadeInDown"><i class="fas fa-crown" style="margin-right: 10px;"></i> Iris Flora Divina</h1>
+            <p class="subtitle animate__animated animate__fadeIn animate__delay-1s">The most sophisticated flower classification system powered by machine learning</p>
+        </div>
+        
+        <div class="form-container">
+            <form action="/predict" method="post" id="predictionForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="sepal_length">Sepal Length (cm)</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="0.1" name="sepal_length" id="sepal_length" placeholder="5.1" required>
+                            <i class="fas fa-ruler-vertical input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sepal_width">Sepal Width (cm)</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="0.1" name="sepal_width" id="sepal_width" placeholder="3.5" required>
+                            <i class="fas fa-ruler-horizontal input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="petal_length">Petal Length (cm)</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="0.1" name="petal_length" id="petal_length" placeholder="1.4" required>
+                            <i class="fas fa-ruler-combined input-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="petal_width">Petal Width (cm)</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="0.1" name="petal_width" id="petal_width" placeholder="0.2" required>
+                            <i class="fas fa-ruler input-icon"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="luxury-divider"></div>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3 class="feature-title">AI-Powered</h3>
+                        <p class="feature-desc">Advanced machine learning algorithms</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3 class="feature-title">Scientific</h3>
+                        <p class="feature-desc">Based on Fisher's Iris dataset</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title">Instant</h3>
+                        <p class="feature-desc">Real-time predictions</p>
+                    </div>
+                </div>
+                
+                <div class="btn-container">
+                    <button type="submit" class="btn animate__animated animate__pulse animate__infinite animate__slower">
+                        <i class="fas fa-gem" style="margin-right: 10px;"></i> Reveal Flower Identity
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        {% if prediction_text %}
+        <div class="result-container animate__animated animate__fadeIn">
+            <div class="prediction-card">
+                <div class="floral-border"></div>
+                <div class="prediction-text">
+                    {{ prediction_text }}
+                    <i class="fas fa-spa" style="margin-left: 10px; color: var(--secondary);"></i>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Create floating particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const colors = ['#6a3093', '#a044ff', '#ff6b6b', '#ffd700'];
+            
+            for (let i = 0; i < 20; i++) {
+                createParticle();
+            }
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle floating';
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                const opacity = Math.random() * 0.5 + 0.1;
+                
+                // Apply styles
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.background = color;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.opacity = opacity;
+                
+                document.body.appendChild(particle);
+            }
+            
+            // Form submission animation
+            const form = document.getElementById('predictionForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const btn = this.querySelector('button[type="submit"]');
+                    btn.classList.remove('animate__pulse');
+                    btn.classList.add('animate__heartBeat');
+                    btn.innerHTML = '<i class="fas fa-cog fa-spin"></i> Analyzing...';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
